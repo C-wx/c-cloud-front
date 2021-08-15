@@ -5,9 +5,7 @@
 -->
 <template>
   <div class="header-wrapper">
-    <span class="el-menu-title" @click="$router.push({ name: 'Home' })">
-      Cbuc 网盘
-    </span>
+
     <el-menu
       :default-active="activeIndex"
       class="el-menu-demo"
@@ -68,16 +66,8 @@ export default {
 
 .header-wrapper {
   width: 100%;
-  padding: 0 20px;
   box-shadow: $tabBoxShadow;
   display: flex;
-
-  .logo {
-    margin: 14px 24px 0 24px;
-    display: inline-block;
-    height: 40px;
-    cursor: pointer;
-  }
 
   >>> .el-menu--horizontal {
     .el-menu-item:not(.is-disabled):hover {
@@ -95,6 +85,7 @@ export default {
   }
 
   .el-menu-title{
+    background-color: rgb(84, 92, 100);
      display block;
      color : red;
      text-align center;
