@@ -45,7 +45,11 @@
       @getTableDataByType="getTableDataByType"
     ></FileGrid>
     <!-- 图片-时间线模式 -->
-    <FileTimeLine class="image-model" v-if="fileModel === 2" :fileList="fileList"></FileTimeLine>
+    <FileTimeLine
+      class="image-model"
+      v-if="fileModel === 2"
+      :fileList="fileList"
+    ></FileTimeLine>
     <div class="pagination-wrapper">
       <div class="current-page-count">当前页{{ fileList.length }}条</div>
       <el-pagination
@@ -90,7 +94,7 @@ import {
   moveFile,
   batchMoveFile,
   searchFile,
-  shareFile
+  shareFile,
 } from '@/request/file.js'
 
 export default {
@@ -102,7 +106,7 @@ export default {
     FileGrid,
     FileTimeLine,
     MoveFileDialog,
-    ShareFileDialog
+    ShareFileDialog,
   },
   data() {
     return {
@@ -112,12 +116,12 @@ export default {
       pageData: {
         currentPage: 1,
         pageCount: 50,
-        total: 0
+        total: 0,
       },
       //  移动文件模态框数据
       dialogMoveFile: {
         isBatchMove: false,
-        visible: false //  是否可见
+        visible: false, //  是否可见
       },
       selectFilePath: '', //  移动文件路径
       operationFile: {}, // 当前操作行
@@ -127,7 +131,7 @@ export default {
         visible: false,
         loading: false,
         success: false,
-        shareData: {}
+        shareData: {},
       },
       //  可以识别的文件类型
       fileImgTypeList: [
@@ -162,7 +166,7 @@ export default {
         'svg',
         'gif',
         'json',
-        'exe'
+        'exe',
       ],
       //  文件图片Map映射
       fileImgMap: {
@@ -199,9 +203,9 @@ export default {
         svg: require('@/assets/images/file/file_svg.png'),
         gif: require('@/assets/images/file/file_gif.png'),
         json: require('@/assets/images/file/file_json.png'),
-        exe: require('@/assets/images/file/file_exe.png')
+        exe: require('@/assets/images/file/file_exe.png'),
       },
-      batchOperate: false //  批量操作模式
+      batchOperate: false, //  批量操作模式
     }
   },
   computed: {
@@ -216,7 +220,7 @@ export default {
     // 文件查看模式 0列表模式 1网格模式 2 时间线模式
     fileModel() {
       return this.$store.getters.fileModel
-    }
+    },
   },
   watch: {
     filePath() {
@@ -241,7 +245,7 @@ export default {
       if (!value) {
         this.selectionFile = []
       }
-    }
+    },
   },
   created() {
     this.setPageCount()
@@ -285,8 +289,8 @@ export default {
     showFileList() {
       let data = {
         filePath: this.filePath,
-        currentPage: this.pageData.currentPage,
-        pageCount: this.pageData.pageCount
+        index: this.pageData.currentPage,
+        size: this.pageData.pageCount,
       }
       getFileListByPath(data).then((res) => {
         if (res.success) {
@@ -333,7 +337,7 @@ export default {
       let data = {
         fileType: this.fileType,
         currentPage: this.pageData.currentPage,
-        pageCount: this.pageData.pageCount
+        pageCount: this.pageData.pageCount,
       }
       getFileListByType(data).then((res) => {
         if (res.success) {
@@ -367,7 +371,9 @@ export default {
      * @param {boolean} visible 移动文件对话框状态
      */
     setMoveFileDialogData(isBatchMove, visible) {
-      this.dialogMoveFile.isBatchMove = isBatchMove ? isBatchMove : this.dialogMoveFile.isBatchMove
+      this.dialogMoveFile.isBatchMove = isBatchMove
+        ? isBatchMove
+        : this.dialogMoveFile.isBatchMove
       this.dialogMoveFile.visible = visible
     },
     /**
@@ -385,7 +391,7 @@ export default {
         //  批量移动
         let data = {
           filePath: this.selectFilePath,
-          files: JSON.stringify(this.selectionFile)
+          files: JSON.stringify(this.selectionFile),
         }
         batchMoveFile(data).then((res) => {
           if (res.success) {
@@ -403,7 +409,7 @@ export default {
           oldFilePath: this.operationFile.filePath,
           filePath: this.selectFilePath,
           fileName: this.operationFile.fileName,
-          extendName: this.operationFile.extendName
+          extendName: this.operationFile.extendName,
         }
         moveFile(data).then((res) => {
           if (res.success) {
@@ -425,7 +431,7 @@ export default {
       searchFile({
         currentPage: this.pageData.currentPage,
         pageCount: this.pageData.pageCount,
-        fileName: fileName
+        fileName: fileName,
       }).then((res) => {
         this.loading = false
         if (res.success) {
@@ -456,10 +462,10 @@ export default {
           files: JSON.stringify(
             this.selectionFile.map((item) => {
               return {
-                userFileId: item.userFileId
+                userFileId: item.userFileId,
               }
             })
-          )
+          ),
         }).then(
           (res) => {
             this.dialogShareFile.loading = false
@@ -481,8 +487,8 @@ export default {
         this.dialogShareFile.loading = false
         this.dialogShareFile.success = false
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

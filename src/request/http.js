@@ -1,7 +1,7 @@
 import axios from 'axios'
 import globalFunction from '@/globalFunction.js'
 import router from '@/router/router'
-import { MessageBox } from 'element-ui';
+import { MessageBox } from 'element-ui'
 
 // 登录提醒
 const loginTip = function() {
@@ -10,20 +10,21 @@ const loginTip = function() {
     callback: () => {
       router.push({
         path: '/login',
-        query: { Rurl: router.currentRoute.fullPath }  //  将当前页面的url传递给login页面进行操作
+        query: { Rurl: router.currentRoute.fullPath }, //  将当前页面的url传递给login页面进行操作
       })
-    }
-  });
+    },
+  })
 }
 
 // 请求超时时间
 axios.defaults.timeout = 10000 * 5
 
 // 请求基础 URL
-axios.defaults.baseURL = '/api'
+axios.defaults.baseURL = '/TEST'
 
 // POST 请求头
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+axios.defaults.headers.post['Content-Type'] =
+  'application/x-www-form-urlencoded'
 
 // 请求携带cookie
 axios.defaults.withCredentials = true
@@ -51,7 +52,7 @@ axios.interceptors.response.use(
   (error) => {
     if (error.response.status) {
       console.log(error.response)
-      switch(error.response.status) {
+      switch (error.response.status) {
         case 401:
           loginTip()
           break
@@ -72,7 +73,7 @@ export function get(url, params) {
   return new Promise((resolve, reject) => {
     axios
       .get(url, {
-        params: params
+        params: params,
       })
       .then((res) => {
         resolve(res.data)

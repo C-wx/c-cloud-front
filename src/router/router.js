@@ -19,11 +19,7 @@ export default new Router({
         import(/* webpackChunkName: "file" */ '@/views/file/file.vue'),
       meta: {
         requireAuth: true, //  当前路由是否需要登录才可进入
-        title: '奇文网盘',
-        content: {
-          description:
-            '基于Spring Boot + Vue CLI@3 框架开发的Web文件系统，旨在为用户提供一个简单、方便的文件存储方案',
-        },
+        title: 'C-cloud',
         breadCrumbName: '全部文件',
       },
     },
@@ -32,7 +28,7 @@ export default new Router({
       name: 'Error_404',
       component: () =>
         import(/* webpackChunkName: "error_404" */ '@/views/ErrorPage/404.vue'),
-      meta: { title: '404 - 奇文网盘' },
+      meta: { title: '404' },
     },
   ],
 })
