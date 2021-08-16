@@ -7,7 +7,7 @@
       :options="options"
       :autoStart="false"
       :fileStatusText="fileStatusText"
-      @file-added="handleFileAdded"
+      @files-added="handleFilesAdded"
       @file-success="handleFileSuccess"
       @file-error="handleFileError"
     >
@@ -166,6 +166,10 @@ export default {
     uploaderInstance() {
       return this.$refs.uploader.uploader
     },
+    // 剩余存储空间
+    remainderStorageValue() {
+      return this.$store.getters.remainderStorageValue
+    },
   },
   mounted() {
     this.$EventBus.$on('openUploader', (query, type) => {
@@ -232,14 +236,33 @@ export default {
       this.pasteImgObj = null
     },
     /**
-     * 添加文件的回调函数
-     * @param {object} file 文件信息
+     * 添加批量文件的回调函数
+     * @description 对单个或批量文件都按此逻辑处理
+     * @param {object} files 批量文件信息
      */
-    handleFileAdded(file) {
-      this.dropBoxShow = false
-      this.panelShow = true
-      this.collapse = false
-      this.computeMD5(file)
+    handleFilesAdded(files) {
+      // 批量选择的文件的总体大小
+      const filesTotalSize = files
+        .map((item) => item.size)
+        .reduce((pre, next) => {
+          return pre + next
+        }, 0)
+      if (this.remainderStorageValue < filesTotalSize) {
+        // 批量选择的文件超出剩余存储空间
+        this.$message.warning(
+          `剩余存储空间不足，请重新选择${files.length > 1 ? '批量' : ''}文件`
+        )
+        // https://github.com/simple-uploader/vue-uploader/blob/master/README_zh-CN.md#%E4%BA%8B%E4%BB%B6
+        files.ignored = true //  本次选择的文件过滤掉
+      } else {
+        // 批量或单个选择的文件未超出剩余存储空间，正常上传
+        files.forEach((file) => {
+          this.dropBoxShow = false
+          this.panelShow = true
+          this.collapse = false
+          this.computeMD5(file)
+        })
+      }
     },
     /**
      * 文件上传成功 回调函数
@@ -257,9 +280,9 @@ export default {
       if (result.success) {
         this.$message.success(`${file.name} - 上传完毕`)
         file.statusStr = ''
-        setTimeout(() => {
-          this.collapse = true //  折叠上传列表
-        }, 1500)
+        // setTimeout(() => {
+        //   this.collapse = true //  折叠上传列表
+        // }, 1500)
         this.$EventBus.$emit('refreshList', '')
         this.$EventBus.$emit('refreshStorage', '')
       } else {

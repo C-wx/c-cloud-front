@@ -47,6 +47,16 @@
           type="info"
           size="small"
           plain
+          @click.native="getFileOnlineEditPathByOffice(selectedFile)"
+          v-if="
+            fileType !== 6 && officeFileType.includes(selectedFile.extendName)
+          "
+          >在线编辑</el-button
+        >
+        <el-button
+          type="info"
+          size="small"
+          plain
           @click.native="handleDeleteFileBtnClick(selectedFile)"
           >删除</el-button
         >
@@ -199,6 +209,7 @@ export default {
         json: require('@/assets/images/file/file_json.png'),
         exe: require('@/assets/images/file/file_exe.png'),
       },
+      officeFileType: ['ppt', 'pptx', 'doc', 'docx', 'xls', 'xlsx'],
       downloadFilePath: '',
       viewFilePath: '',
       // 右键菜单
@@ -311,7 +322,7 @@ export default {
     handleFileNameClick(row, activeIndex, fileList) {
       this.rightMenu.isShow = false
       //  若是目录则进入目录
-      if (row.isDir) {
+      if (row.dirFlag == '0') {
         this.$router.push({
           query: {
             filePath: row.filePath + row.fileName + '/',
@@ -356,13 +367,11 @@ export default {
           }
         }
         //  若当前点击项是可以使用office在线预览的
-        if (
-          ['ppt', 'pptx', 'doc', 'docx', 'xls', 'xlsx'].includes(row.extendName)
-        ) {
-          window.open(this.getFileOnlineViewPathByOffice(row), '_blank')
+        if ([...this.officeFileType, 'pdf'].includes(row.extendName)) {
+          this.getFileOnlineViewPathByOffice(row)
         }
         //  若当前点击项是代码或文本文件
-        const CODE = ['html', 'js', 'css', 'json', 'c', 'java', 'txt', 'pdf']
+        const CODE = ['html', 'js', 'css', 'json', 'c', 'java', 'txt']
         if (CODE.includes(row.extendName)) {
           window.open(this.getViewFilePath(row), '_blank')
         }
