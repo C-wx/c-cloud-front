@@ -293,8 +293,8 @@ export default {
         size: this.pageData.pageCount,
       }
       getFileListByPath(data).then((res) => {
-        if (res.success) {
-          this.fileList = res.data.list
+        if (res.code == 200) {
+          this.fileList = res.data.records
           this.pageData.total = res.data.total
           this.loading = false
         } else {

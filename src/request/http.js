@@ -20,7 +20,7 @@ const loginTip = function() {
 axios.defaults.timeout = 10000 * 5
 
 // 请求基础 URL
-axios.defaults.baseURL = '/TEST'
+axios.defaults.baseURL = '/api'
 
 // POST 请求头
 axios.defaults.headers.post['Content-Type'] =

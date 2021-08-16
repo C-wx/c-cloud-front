@@ -11,7 +11,7 @@ import { get, post } from './http'
  */
 // 获取文件列表（区分文件路径）
 export const getFileListByPath = (p) =>
-  post(`/file/getfilelist/${p.index}/${p.size}`, p)
+  post(`/file/list/${p.index}/${p.size}`, p)
 // 获取文件列表（区分文件类型）
 export const getFileListByType = (p) => get('/file/selectfilebyfiletype', p)
 // 获取回收站文件列表
@@ -27,7 +27,7 @@ export const getFoldTree = (p) => get('/file/getfiletree', p)
  * 单文件操作相关接口
  */
 // 创建文件
-export const createFold = (p) => post('/file/createfile', p)
+export const createFold = (p) => post('/file/dir/_save', p)
 // 删除文件
 export const deleteFile = (p) => post('/file/deletefile', p)
 // 移动文件

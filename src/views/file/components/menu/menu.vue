@@ -19,7 +19,6 @@
         index="0"
         :route="{ name: 'File', query: { fileType: 0, filePath: '/' } }"
       >
-        <!-- 图标均来自 Element UI 官方图标库 https://element.eleme.cn/#/zh-CN/component/icon -->
         <i class="el-icon-menu"></i>
         <span slot="title">全部</span>
       </el-menu-item>

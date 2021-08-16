@@ -3,7 +3,7 @@
  * @Author: cbuc
  * @Date: 2021-08-08 20:31:56
  */
-import { getStorage } from '@/request/file.js'
+// import { getStorage } from '@/request/file.js'
 
 export default {
   state: {
@@ -28,20 +28,23 @@ export default {
      * 获取文件已占用的存储空间
      */
     showStorage(context) {
-      return getStorage().then((res) => {
-        if (res.success) {
-          context.commit(
-            'setStorageValue',
-            res.data ? Number(res.data.storageSize) : 0
-          )
-          context.commit(
-            'setTotalStorageValue',
-            res.data ? Number(res.data.totalStorageSize) : 0
-          )
-        } else {
-          this.$message.error(res.message)
-        }
-      })
+      console.log("获取存储容量", context)
+      // TODO 获取存储容量
+      return "123";
+      // return getStorage().then((res) => {
+      //   if (res.success) {
+      //     context.commit(
+      //       'setStorageValue',
+      //       res.data ? Number(res.data.storageSize) : 0
+      //     )
+      //     context.commit(
+      //       'setTotalStorageValue',
+      //       res.data ? Number(res.data.totalStorageSize) : 0
+      //     )
+      //   } else {
+      //     this.$message.error(res.message)
+      //   }
+      // })
     },
   },
 }

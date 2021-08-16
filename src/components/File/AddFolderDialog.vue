@@ -96,13 +96,16 @@ export default {
             isDir: 1
           }).then((res) => {
             this.loading = false
-            if (res.success) {
+            if (res.code == 200) {
               this.$message.success('添加成功')
               this.dialogStatus = false
               this.$refs[formName].resetFields()
               this.$emit('confirmDialog')
             } else {
-              this.$message.warning(res.message)
+              this.$message.error(res.message)
+              this.dialogStatus = false
+              this.$refs[formName].resetFields()
+              this.$emit('confirmDialog')
             }
           })
         } else {

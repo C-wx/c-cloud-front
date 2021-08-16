@@ -115,23 +115,22 @@ export default {
     return {
       // 上传组件配置项
       options: {
-        target: '/api/filetransfer/uploadfile', // 上传文件-目标 URL
+        target: `/api/file/_upload`, // 上传文件-目标 URL
         chunkSize: 1024 * 1024, //  每个分片的大小
         fileParameterName: 'file', //  上传文件时文件的参数名，默认 file
         maxChunkRetries: 3, //  并发上传数，默认 3
         testChunks: true, //  是否开启分片已存在于服务器的校验
         // 服务器分片校验函数，秒传及断点续传基础
         checkChunkUploadedByResponse: function(chunk, message) {
-          let objMessage = JSON.parse(message)
-          if (objMessage.success) {
-            let data = objMessage.data
-            if (data.skipUpload) {
+          let res = JSON.parse(message)
+          if (res.code == 200) {
+            let data = res.data
+            if (!data) {
               // 分片已存在于服务器中
               return true
             }
             return (data.uploaded || []).indexOf(chunk.offset + 1) >= 0
           } else {
-            console.log(objMessage.message)
             return true
           }
         },
